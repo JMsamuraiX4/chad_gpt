@@ -26,6 +26,8 @@ def responder():
     entrada = entrada_usuario.get().strip().lower() #lee lo que ingresa el usuario
     if not entrada:
         return
+    
+    entrada = entrada.replace("¿", "").replace("?", "") #ignora signos de pregunta
 
     if entrada == "salir":
         ventana.quit() #sale del programa
