@@ -39,7 +39,7 @@ def responder():
         mostrar_respuesta(f"🤖: {respuesta}") #si existe una respuesta para esa pregunta, lo responde
     else:
         mostrar_respuesta("🤖: No sé la respuesta. ¿Querés agregarla?") #si no existe, sugiere de agregar una respuesta para esas pregunta
-        if messagebox.askyesno("Agregar respuesta", "¿Querés agregar una respuesta para esta pregunta?"):
+        if messagebox.askyesno("Agregar respuesta", "¿Querés agregar una respuesta para esta CHADpregunta?"):
             nueva_respuesta = simpledialog.askstring("Respuesta", "Escribí la respuesta:") #registra la respuesta ingresada por el usuario en un dialog contextual
             if nueva_respuesta:
                 agregar_pregunta(entrada, nueva_respuesta) #agrega la respuesta a la pregunta con otra funcion
@@ -57,7 +57,7 @@ base_conocimiento = cargar_preguntas() #carga los datos con la funcion ya establ
 
 # Crear ventana
 ventana = tk.Tk()
-ventana.title("ChatBot - Fundamentos de Programación") #inicia la interfaz
+ventana.title("CHADGPT") #inicia la interfaz
 
 # Área de chat
 chat = tk.Text(ventana, height=20, width=60, state=tk.NORMAL, wrap=tk.WORD) #parametros de la interfaz
@@ -73,7 +73,7 @@ boton = tk.Button(ventana, text="Enviar", command=responder) #parametros aparien
 boton.pack(pady=(0, 10))
 
 # Mensaje inicial
-mostrar_respuesta("🤖: ¡Hola! Soy tu asistente. Escribí tu pregunta o 'salir' para terminar.")
+mostrar_respuesta("🤖: ¡Hola! Soy tu asistente. Escribí tu CHADpregunta o 'salir' para terminar.")
 
 # Ejecutar
 ventana.mainloop() #ejecuta la interfaz
