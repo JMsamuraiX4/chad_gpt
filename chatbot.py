@@ -1,105 +1,88 @@
-#modulos
-import os  # interactuar con sistema operativo, buscar archivos...
-import csv  # archivos .csv (leer, modificar)
+import os
+import tkinter as tk
+from tkinter import messagebox, simpledialog
+import pandas as pd
 import difflib
-import unicodedata
-import tkinter as tk  # interfaz gráfica
-from tkinter import messagebox, simpledialog  # mensajes y diálogos
 
-ARCHIVO = os.path.join(os.path.dirname(__file__), "preguntas.csv")  # ruta al archivo csv
-ICONO = os.path.join(os.path.dirname(__file__), "logo.ico")  # ruta al archivo ico
+ARCHIVO = os.path.join(os.path.dirname(__file__), "preguntas.csv")
+ICONO = os.path.join(os.path.dirname(__file__), "logo.ico")
 
-def cargar_preguntas():
-    preguntas = {}
-    try:
-        with open(ARCHIVO, mode='r', encoding='utf-8') as archivo:
-            lector = csv.DictReader(archivo)
-            for fila in lector:
-                preguntas[fila['pregunta'].strip().lower()] = fila['respuesta']
-    except FileNotFoundError:
-        messagebox.showerror("Error", "Archivo preguntas.csv no encontrado.")
-    return preguntas
+# Cargar CSV
+df = pd.read_csv(ARCHIVO)
+preguntas_lista = df['pregunta'].tolist()
+
+def mostrar_respuesta(mensaje):
+    chat.config(state='normal')
+    chat.insert(tk.END, mensaje + "\n", "espaciado")
+    chat.config(state='disabled')
+    chat.see(tk.END)
 
 def agregar_pregunta(pregunta, respuesta):
     with open(ARCHIVO, mode='a', newline='', encoding='utf-8') as archivo:
-        escritor = csv.writer(archivo)
-        escritor.writerow([pregunta, respuesta])
-
-def normalizar(texto):
-    texto = texto.lower().strip()
-    texto = ''.join(c for c in unicodedata.normalize('NFD', texto) if unicodedata.category(c) != 'Mn') #Elimina las tildes
-    texto = texto.replace("¿", "").replace("?", "").replace(",", "").replace(".", "")
-    return texto
+        archivo.write(f'"{pregunta}","{respuesta}"\n')
 
 def responder():
-    entrada = entrada_usuario.get().strip().lower()
-    if not entrada:
+    comando = entrada.get().strip()
+    entrada.delete(0, tk.END)
+
+    if comando.lower() == "salir":
+        ventana.destroy()
         return
 
-    # Mostrar lo que escribió el usuario
-    mostrar_respuesta(f"Tú: {entrada}")
-
-    if entrada == "salir":
-        ventana.quit()
+    if len(comando.strip()) < 8 and len(comando.strip().split()) < 2 and comando.title() not in ["Hola", "Chau"]:
+        mostrar_respuesta("Chatbot: Por favor, escribí una consulta más clara (mínimo 8 caracteres o 2 palabras).")
         return
-    
-    entrada_normalizada = normalizar(entrada)
 
-    # Crear un diccionario con claves normalizadas
-    preguntas_normalizadas = {normalizar(p): p for p in base_conocimiento}
+    mostrar_respuesta(f"Tú: {comando}")
 
-    # Buscar coincidencia exacta
-    clave_real = preguntas_normalizadas.get(entrada_normalizada)
+    coincidencias = df[df['pregunta'].str.contains(comando, case=False, na=False)]
 
-        # Si no hay coincidencia exacta, buscar la más parecida
-    if not clave_real:
-        coincidencias = difflib.get_close_matches(entrada_normalizada, preguntas_normalizadas.keys(), n=1, cutoff=0.8)
-        if coincidencias:
-            clave_real = preguntas_normalizadas[coincidencias[0]]
-
-    respuesta = base_conocimiento.get(entrada)
-
-    if clave_real:
-        respuesta = base_conocimiento[clave_real]
+    if not coincidencias.empty:
+        respuesta = coincidencias.iloc[0]['respuesta']
         mostrar_respuesta(f"Chatbot: {respuesta}")
     else:
-        mostrar_respuesta("Chatbot: No sé la respuesta. ¿Querés agregarla?")
-        if messagebox.askyesno("Agregar respuesta", "¿Querés agregar una respuesta para esta CHADpregunta?"):
-            nueva_respuesta = simpledialog.askstring("Respuesta", "Escribí la respuesta:")
-            if nueva_respuesta:
-                agregar_pregunta(entrada, nueva_respuesta)
-                base_conocimiento[entrada] = nueva_respuesta
-                mostrar_respuesta("Chatbot: ¡Gracias! Ya aprendí esa respuesta.")
-
-    entrada_usuario.delete(0, tk.END)
-
-def mostrar_respuesta(texto):
-    chat.insert(tk.END, texto + "\n")
-    chat.see(tk.END)
-
-# Cargar datos
-base_conocimiento = cargar_preguntas()
+        similar = difflib.get_close_matches(comando, preguntas_lista, n=1, cutoff=0.5)
+        if similar:
+            sugerida = similar[0]
+            respuesta = df[df['pregunta'] == sugerida].iloc[0]['respuestas']
+            mostrar_respuesta(f"Chatbot: Tal vez quisiste decir: '{sugerida}'")
+            mostrar_respuesta(f"Chatbot: {respuesta}")
+        else:
+            mostrar_respuesta("Chatbot: No encontré una respuesta parecida.")
+            desea_agregar = messagebox.askyesno("Agregar pregunta", "¿Querés agregar esta pregunta?")
+            if desea_agregar:
+                respuesta_usuario = simpledialog.askstring("Tu respuesta", "Escribí qué respuesta esperabas:")
+                if respuesta_usuario:
+                    agregar_pregunta(comando, respuesta_usuario)
+                    df.loc[len(df.index)] = [comando, respuesta_usuario]
+                    preguntas_lista.append(comando)
+                    mostrar_respuesta("Chatbot: ¡Gracias! Ya aprendí esa respuesta.")
 
 # Crear ventana
 ventana = tk.Tk()
-ventana.title("CHADGPT")
+ventana.title("CHAD GPT para Python")
+ventana.geometry("500x600")
+ventana.resizable(False, False)
 ventana.iconbitmap(ICONO)
 
 # Área de chat
-chat = tk.Text(ventana, height=20, width=60, state=tk.NORMAL, wrap=tk.WORD)
-chat.pack(padx=10, pady=10)
+chat = tk.Text(ventana, height=30, width=58, state='disabled', wrap='word')
+chat.pack(pady=10)
+chat.tag_configure("espaciado", spacing3=5)
 
-# Entrada de texto
-entrada_usuario = tk.Entry(ventana, width=60)
-entrada_usuario.pack(padx=10, pady=(0, 10))
-entrada_usuario.bind("<Return>", lambda event: responder())
+# Mensaje inicial
+mostrar_respuesta("Chatbot: Bienvenido a Chadbot, un chatbot que responde preguntas sobre Python. ¿En qué te puedo asistir hoy?")
+
+# Campo de entrada
+entrada = tk.Entry(ventana, width=50)
+entrada.pack(pady=5)
+entrada.focus()
 
 # Botón de enviar
 boton = tk.Button(ventana, text="Enviar", command=responder)
-boton.pack(pady=(0, 10))
+boton.pack()
 
-# Mensaje inicial
-mostrar_respuesta("Chatbot: ¡Hola! Soy tu asistente. Escribí tu CHADpregunta o 'salir' para terminar.")
+# Enviar con Enter
+ventana.bind('<Return>', lambda event: responder())
 
-# Ejecutar
 ventana.mainloop()

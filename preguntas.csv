@@ -1,4 +1,6 @@
 pregunta,respuesta
+Hola,"Bienvenido a Chadbot, un chatbot que responde preguntas sobre Python. ¿En qué te puedo asistir hoy?"
+Chau,"¡Chau! Nos vemos la próxima, espero haberte ayudado."
 ¿cómo se imprime un mensaje en la consola en Python?,"Usando la función print(), por ejemplo: print(""Hola, mundo"")."
 ¿Cómo se declara una variable en Python?,Solo asignando un valor: x = 10.
 ¿Qué tipo de datos básicos existen en Python?,"int, float, str, bool, list, tuple, dict, set."
@@ -38,7 +40,7 @@ pregunta,respuesta
 ¿Cómo ordenar listas de objetos por un atributo?,"sorted(lista, key=lambda x: x.atributo)"
 ¿Qué es una expresión regular y cómo se utiliza con re?,"import re; re.search(r""\d+"", ""abc123"")"
 ¿Qué significa que Python tenga tipado dinámico?,No se especifican tipos explícitamente; se infieren.
-¿Qué es el with open(...) as f: y por qué es útil?,"Abre archivos y los cierra automáticamente, evitando errores."
+¿Qué es el with open (...) as f: y por qué es útil?,"Abre archivos y los cierra automáticamente, evitando errores."
 ¿Cómo se define una clase en Python?,class Persona: pass
 ¿Qué es la herencia en la programación orientada a objetos (POO)?,Una clase puede heredar atributos y métodos de otra.
 ¿Qué es un @staticmethod y un @classmethod?,@staticmethod: método sin acceso a la clase; @classmethod: recibe la clase como primer argumento.
