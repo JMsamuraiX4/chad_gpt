@@ -36,7 +36,7 @@ def responder():
     if not entrada:
         return
 
-    # 👉 Mostrar lo que escribió el usuario
+    # Mostrar lo que escribió el usuario
     mostrar_respuesta(f"Tú: {entrada}")
 
     if entrada == "salir":
@@ -61,15 +61,15 @@ def responder():
 
     if clave_real:
         respuesta = base_conocimiento[clave_real]
-        mostrar_respuesta(f"🤖: {respuesta}")
+        mostrar_respuesta(f"Chatbot: {respuesta}")
     else:
-        mostrar_respuesta("🤖: No sé la respuesta. ¿Querés agregarla?")
+        mostrar_respuesta("Chatbot: No sé la respuesta. ¿Querés agregarla?")
         if messagebox.askyesno("Agregar respuesta", "¿Querés agregar una respuesta para esta CHADpregunta?"):
             nueva_respuesta = simpledialog.askstring("Respuesta", "Escribí la respuesta:")
             if nueva_respuesta:
                 agregar_pregunta(entrada, nueva_respuesta)
                 base_conocimiento[entrada] = nueva_respuesta
-                mostrar_respuesta("🤖: ¡Gracias! Ya aprendí esa respuesta.")
+                mostrar_respuesta("Chatbot: ¡Gracias! Ya aprendí esa respuesta.")
 
     entrada_usuario.delete(0, tk.END)
 
@@ -99,7 +99,7 @@ boton = tk.Button(ventana, text="Enviar", command=responder)
 boton.pack(pady=(0, 10))
 
 # Mensaje inicial
-mostrar_respuesta("🤖: ¡Hola! Soy tu asistente. Escribí tu CHADpregunta o 'salir' para terminar.")
+mostrar_respuesta("Chatbot: ¡Hola! Soy tu asistente. Escribí tu CHADpregunta o 'salir' para terminar.")
 
 # Ejecutar
 ventana.mainloop()
