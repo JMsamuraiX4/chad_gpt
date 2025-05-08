@@ -7,6 +7,7 @@ import tkinter as tk  # interfaz gráfica
 from tkinter import messagebox, simpledialog  # mensajes y diálogos
 
 ARCHIVO = os.path.join(os.path.dirname(__file__), "preguntas.csv")  # ruta al archivo csv
+ICONO = os.path.join(os.path.dirname(__file__), "logo.ico")  # ruta al archivo ico
 
 def cargar_preguntas():
     preguntas = {}
@@ -82,7 +83,7 @@ base_conocimiento = cargar_preguntas()
 # Crear ventana
 ventana = tk.Tk()
 ventana.title("CHADGPT")
-ventana.iconbitmap('logo.ico')
+ventana.iconbitmap(ICONO)
 
 # Área de chat
 chat = tk.Text(ventana, height=20, width=60, state=tk.NORMAL, wrap=tk.WORD)
