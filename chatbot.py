@@ -6,7 +6,7 @@ import unicodedata
 import tkinter as tk  # interfaz gráfica
 from tkinter import messagebox, simpledialog  # mensajes y diálogos
 
-ARCHIVO = os.path.join(os.path.dirname(__file__), "preguntas_respuestas_chatbot_python.csv")  # ruta al archivo csv
+ARCHIVO = os.path.join(os.path.dirname(__file__), "preguntas.csv")  # ruta al archivo csv
 
 def cargar_preguntas():
     preguntas = {}
