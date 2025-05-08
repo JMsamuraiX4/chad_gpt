@@ -82,6 +82,7 @@ base_conocimiento = cargar_preguntas()
 # Crear ventana
 ventana = tk.Tk()
 ventana.title("CHADGPT")
+ventana.iconbitmap('logo.ico')
 
 # Área de chat
 chat = tk.Text(ventana, height=20, width=60, state=tk.NORMAL, wrap=tk.WORD)
