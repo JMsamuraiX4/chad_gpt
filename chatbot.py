@@ -102,7 +102,7 @@ boton = tk.Button(ventana, text="Enviar", command=responder)
 boton.pack()
 
 # Enviar con Enter
-ventana.bind('<Return>', responder)
+entrada.bind("<Return>", lambda event: responder())
 
 # Iniciar app
 ventana.mainloop()
