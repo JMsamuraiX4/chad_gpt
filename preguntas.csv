@@ -1,0 +1,55 @@
+pregunta,respuesta
+¿cómo se imprime un mensaje en la consola en Python?,"Usando la función print(), por ejemplo: print(""Hola, mundo"")."
+¿Cómo se declara una variable en Python?,Solo asignando un valor: x = 10.
+¿Qué tipo de datos básicos existen en Python?,"int, float, str, bool, list, tuple, dict, set."
+¿Qué diferencia hay entre una lista y una tupla?,"Las listas son mutables ([1, 2, 3]), las tuplas son inmutables ((1, 2, 3))."
+¿Cómo se usa un bucle for en Python?,for i in range(5): print(i)
+¿Cómo se usa un bucle while en Python?,i = 0; while i < 5: print(i); i += 1
+¿Cómo se define una función en Python?,"def saludar(): print(""Hola"")"
+¿Cómo se comenta una línea de código en Python?,"Con #, por ejemplo: # Esto es un comentario."
+¿Qué hace la función len()?,Devuelve la cantidad de elementos en una colección.
+¿Qué es un diccionario y cómo se accede a sus valores?,"Colección clave-valor. Acceso: dic[""clave""]."
+¿Cómo se convierte una cadena a entero y viceversa?,"int(""5"") y str(5)."
+¿Qué es un NoneType en Python?,"El tipo de valor especial None, que representa ausencia de valor."
+¿Qué diferencia hay entre == y is en Python?,== compara valores; is compara identidades (misma ubicación en memoria).
+¿Cómo concatenar cadenas en Python?,"""Hola"" + "" Mundo"" o f""{var1} {var2}"""
+¿Cómo se puede generar una lista de números del 1 al 10?,"list(range(1, 11))"
+¿Qué es y cómo se usa la instrucción if?,"if x > 0: print(""Positivo"")"
+¿Cómo se detiene un bucle antes de tiempo?,Con break.
+¿Cómo se generan números aleatorios?,"Usando el módulo random: random.randint(1, 10)"
+¿Qué significa que Python sea un lenguaje interpretado?,"El código se ejecuta línea por línea, sin necesidad de compilación previa."
+¿Cómo funciona el input() en Python?,"Captura texto del usuario: nombre = input(""¿Tu nombre? "")"
+¿Cómo se maneja una excepción en Python?,"try: x = 1 / 0; except ZeroDivisionError: print(""No se puede dividir por cero"")"
+¿Qué es un try-except-finally y cuándo se usa?,try: ...; except: ...; finally: ...
+¿Qué son las funciones lambda?,Funciones anónimas: lambda x: x * 2.
+"¿Qué diferencia hay entre append(), insert() y extend() en listas?","append(x) añade al final; insert(i, x) en índice; extend(lista) añade múltiples elementos."
+¿Qué son las comprensiones de listas (list comprehensions)?,[x for x in range(5)]
+¿Cómo se copia una lista sin que ambas se vinculen?,Usando copy() o slicing: nueva = vieja[:]
+¿Qué es y cómo funciona un set en Python?,"Conjunto de elementos únicos: {1, 2, 3}."
+¿Cómo importar y usar módulos estándar como math o random?,import math; print(math.sqrt(16))
+¿Qué son y cómo se usan los argumentos *args y **kwargs?,Permiten pasar múltiples argumentos posicionales o con nombre.
+¿Cómo se lee y escribe en un archivo de texto?,"with open(""archivo.txt"", ""r"") as f: datos = f.read()"
+¿Qué es el desempaquetado de variables y para qué sirve?,"Asignación múltiple: a, b = [1, 2]"
+¿Qué son los decoradores en Python?,Funciones que modifican otras funciones. Se usan con @.
+¿Qué es un generador (yield) y cómo se diferencia de return?,yield retorna valores uno por uno en vez de terminar la función.
+¿Qué diferencia hay entre variables locales y globales?,"Las locales están dentro de funciones, las globales fuera."
+¿Cómo se mide el tiempo de ejecución de un código?,import time; inicio = time.time(); fin = time.time()
+¿Qué es el módulo os y qué se puede hacer con él?,"Manipula el sistema operativo: archivos, rutas, procesos."
+¿Cómo ordenar listas de objetos por un atributo?,"sorted(lista, key=lambda x: x.atributo)"
+¿Qué es una expresión regular y cómo se utiliza con re?,"import re; re.search(r""\d+"", ""abc123"")"
+¿Qué significa que Python tenga tipado dinámico?,No se especifican tipos explícitamente; se infieren.
+¿Qué es el with open(...) as f: y por qué es útil?,"Abre archivos y los cierra automáticamente, evitando errores."
+¿Cómo se define una clase en Python?,class Persona: pass
+¿Qué es la herencia en la programación orientada a objetos (POO)?,Una clase puede heredar atributos y métodos de otra.
+¿Qué es un @staticmethod y un @classmethod?,@staticmethod: método sin acceso a la clase; @classmethod: recibe la clase como primer argumento.
+¿Qué es el método __init__() y para qué se usa?,"Es el constructor de la clase, se llama al instanciar."
+"¿Qué son los métodos mágicos (__str__, __repr__, etc.)?",Métodos especiales que Python llama automáticamente en ciertas operaciones.
+¿Cómo funciona el recolector de basura en Python?,Libera memoria eliminando objetos sin referencias activas.
+¿Qué es una metaclase en Python y cuándo se usa?,Clase de clases. Se usa para modificar la creación de clases.
+¿Qué son las anotaciones de tipo (type hints) y cómo ayudan?,"Mejoran la legibilidad y permiten chequeos estáticos. Ej: def suma(x: int, y: int) -> int:"
+¿Cómo funciona la serialización con pickle o json?,Transforma objetos en cadenas para almacenarlos o transmitirlos.
+¿Cuáles son las mejores prácticas para escribir código Python limpio y legible?,"Nombres claros, comentarios útiles, seguir PEP8, evitar duplicación, pruebas, modularidad."
+de que color es el pasto,verde
+cual es la mejor estacion?,verano
+mejor gusto de helado?,menta
+cual es el mejor sabor de helado?,menta
