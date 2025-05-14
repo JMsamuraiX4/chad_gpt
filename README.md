@@ -6,15 +6,17 @@
 
 ## 📂 Estructura del proyecto
 
+```
 chad_gpt/
-├── chatbot.py # Script principal del bot
-├── preguntas.csv # Base de conocimiento (preguntas y respuestas)
-├── logo.ico # Ícono de la ventana
-└── README.md # Documentación
+├── chatbot.py        # Script principal del bot
+├── preguntas.csv     # Base de conocimiento (preguntas y respuestas)
+├── logo.ico          # Ícono de la ventana
+└── README.md         # Documentación
+```
 
-## Como ejecutar el bot
+## 🚀 Cómo ejecutar el bot
 
-### 1. Instala Python (si no lo tenes)
+### 1. Instala Python (si no lo tenés)
 
 Este proyecto usa Python 3.6 o superior.
 
@@ -23,21 +25,29 @@ Este proyecto usa Python 3.6 o superior.
 ```bash
 git clone https://github.com/JMsamuraiX4/chad_gpt.git
 cd chad_gpt
+```
 
 ### 3. Ejecuta el ChadGPT
 
+```bash
 python chatbot.py
+```
 
-## Cómo ejecutar el bot
+---
 
-### 1. Al iniciar, el bot carga todas las preguntas desde preguntas.csv
+## 🧠 Cómo funciona el bot
 
-### 2. Cuando el usuario pregunta algo: Normaliza la entrada, busca coincidencias y si no encuentra la respuesta pide al usuario que la enseñe.
+1. Al iniciar, el bot carga todas las preguntas desde `preguntas.csv`.
 
-### 3. Cada nueva respuesta se guarda en el archivo CSV y se aprende al instante.
+2. Cuando el usuario pregunta algo: normaliza la entrada, busca coincidencias y si no encuentra la respuesta, pide al usuario que la enseñe.
 
-## Ejemplo de uso
+3. Cada nueva respuesta se guarda en el archivo CSV y se aprende al instante.
 
+---
+
+## 💬 Ejemplo de uso
+
+```
 🙋 Tú: ¿Cómo se declara una variable en Python?
 🤖 ChadGPT: Solo asignando un valor: x = 10.
 
@@ -45,12 +55,17 @@ python chatbot.py
 🤖 ChadGPT: No sé la respuesta. ¿Querés agregarla?
 (Usuario agrega: "La edad es irrelevante para un chad.")
 🤖 ChadGPT: ¡Gracias! Ya aprendí esa respuesta.
+```
 
-## Requisitos
+---
 
-Python 3.6+
+## 📦 Requisitos
 
-## Autores
+- Python 3.6+
 
-Creado por "Los ChadGPT"
+---
+
+## 👥 Autores
+
+Creado por "Los ChadGPT"  
 Versión: 1.0 - 2025
