@@ -1,5 +1,5 @@
 pregunta,respuesta
-¿cómo se imprime un mensaje en la consola en Python?,"Usando la función print(), por ejemplo: print(""Hola, mundo"")."
+¿Cómo se imprime un mensaje en la consola en Python?,"Usando la función print(), por ejemplo: print(""Hola, mundo"")."
 ¿Cómo se declara una variable en Python?,Solo asignando un valor: x = 10.
 ¿Qué tipo de datos básicos existen en Python?,"int, float, str, bool, list, tuple, dict, set."
 ¿Qué diferencia hay entre una lista y una tupla?,"Las listas son mutables ([1, 2, 3]), las tuplas son inmutables ((1, 2, 3))."

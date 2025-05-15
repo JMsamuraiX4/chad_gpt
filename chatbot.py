@@ -86,8 +86,7 @@ ventana.iconbitmap(ICONO)
 ventana.configure(bg="black")
 
 # Área de chat
-chat = tk.Text(ventana, height=20, width=60, state=tk.NORMAL, wrap=tk.WORD,
-               bg="black", fg="white", insertbackground="white")
+chat = tk.Text(ventana, height=20, width=60, state=tk.NORMAL, wrap=tk.WORD, bg="black", fg="white", insertbackground="white")
 chat.tag_config("usuario", foreground="#00FFFF")  # cian brillante para usuario
 chat.tag_config("chatbot", foreground="#FFFF00")  # amarillo brillante para chatbot
 chat.pack(padx=10, pady=10)
@@ -98,12 +97,11 @@ entrada_usuario.pack(padx=10, pady=(0, 10))
 entrada_usuario.bind("<Return>", lambda event: responder())
 
 # Botón de enviar
-boton = tk.Button(ventana, text="Enviar", command=responder,
-                  bg="black", fg="white", activebackground="#FFFFFF", activeforeground="black")
+boton = tk.Button(ventana, text="Enviar", command=responder, bg="black", fg="white", activebackground="#FFFFFF", activeforeground="black")
 boton.pack(pady=(0, 10))
 
 # Mensaje inicial
-mostrar_respuesta("🤖 ChadGPT: ¡Hola! Soy tu asistente. Escribí tu CHADpregunta o 'salir' para terminar.", "chatbot")
+mostrar_respuesta("🤖 ChadGPT: ¡Hola! Bienvenido a CHAD GPT. Un bot de asistencia para aprender Python de forma gratuita.\n\nEscribime tu pregunta (e.j: '¿Cómo se imprime un mensaje en la consola en Python?' o '¿Cómo se usa un bucle for en Python?') e intentaré responderla.\n\nEn el caso de no saberla puede agregarla a la base de datos.", "chatbot")
 
 # Ejecutar
 ventana.mainloop()
