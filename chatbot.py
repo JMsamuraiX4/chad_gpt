@@ -43,19 +43,20 @@ def responder():
         return
 
     entrada_normalizada = normalizar(entrada)
-    preguntas_normalizadas = {normalizar(p): p for p in base_conocimiento}
-    clave_real = preguntas_normalizadas.get(entrada_normalizada)
+    clave_real = None
+    mejor_coincidencia = difflib.get_close_matches(entrada_normalizada, [normalizar(p) for p in base_conocimiento.keys()], n=1, cutoff=0.5)
 
-    if not clave_real:
-        coincidencias = difflib.get_close_matches(entrada_normalizada, preguntas_normalizadas.keys(), n=1, cutoff=0.8)
-        if coincidencias:
-            clave_real = preguntas_normalizadas[coincidencias[0]]
-
-    respuesta = base_conocimiento.get(entrada)
+    if mejor_coincidencia:
+        clave_real = None
+        for original in base_conocimiento:
+            if normalizar(original) == mejor_coincidencia[0] and clave_real is None:
+                clave_real = original
 
     if clave_real:
-        respuesta = base_conocimiento[clave_real]
-        mostrar_respuesta(f"🤖 ChadGPT: {respuesta}", "chatbot")
+        if entrada != clave_real:
+            mostrar_respuesta(f'🤖 ChadGPT: ¿Quisiste decir: "{clave_real}"?\nRespuesta: {base_conocimiento[clave_real]}', "chatbot")
+        else:
+            mostrar_respuesta(f"🤖 ChadGPT: {base_conocimiento[clave_real]}", "chatbot")
     else:
         mostrar_respuesta("🤖 ChadGPT: No sé la respuesta. ¿Querés agregarla?", "chatbot")
         if messagebox.askyesno("Agregar respuesta", "¿Querés agregar una respuesta para esta CHADpregunta?"):
