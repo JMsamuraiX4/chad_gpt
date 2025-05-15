@@ -1,4 +1,7 @@
 pregunta,respuesta
+Hola,"¡Hola! Bienvenido a CHAD GPT. ¿Cuál es tu consulta?"
+Chau,"¡Adiós! Espero haberte ayudado. ¡Nos vemos la próxima!"
+Adiós,"¡Adiós! Espero haberte ayudado. ¡Nos vemos la próxima!"
 ¿Cómo se imprime un mensaje en la consola en Python?,"Usando la función print(), por ejemplo: print(""Hola, mundo"")."
 ¿Cómo se declara una variable en Python?,Solo asignando un valor: x = 10.
 ¿Qué tipo de datos básicos existen en Python?,"int, float, str, bool, list, tuple, dict, set."
