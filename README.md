@@ -4,6 +4,26 @@
 
 ---
 
+## 🤔 ¿Que puede hacer ChadGPT?
+
+- Responde preguntas sobre Python usando una base de datos propia.
+- Aprende nuevas preguntas y respuestas que el usuario le enseña.
+- Sugiere preguntas si el usuario escribe una palabra clave (ej: "listas", "herencia").
+- Permite buscar y explorar el conocimiento guardado.
+
+---
+
+## 📝 Instrucciones de uso
+
+- Escribi una pregunta sobre Python, por ejemplo:  
+  `¿Cómo se imprime un mensaje en la consola?`
+- Si el bot no sabe la respuesta, podes enseñarsela.
+- Tambien podes escribir una sola palabra clave como `bucles`, `funciones` o `condicionales` para buscar coincidencias.
+- Escribí `ayuda` para ver la guía de uso.
+- Escribí `salir` para cerrar la aplicación.
+
+---
+
 ## 📂 Estructura del proyecto
 
 ```
@@ -56,6 +76,14 @@ python chatbot.py
 (Usuario agrega: "La edad es irrelevante para un chad.")
 🤖 ChadGPT: ¡Gracias! Ya aprendí esa respuesta.
 ```
+
+---
+
+## 🛠️ Manejo de errores
+
+- Si el archivo `preguntas.csv` no existe, se muestra un mensaje de error.
+- El bot evita errores si el usuario no escribe nada.
+- Se filtran caracteres especiales y tildes para mejorar las coincidencias.
 
 ---
 
