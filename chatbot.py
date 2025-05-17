@@ -10,72 +10,100 @@ ARCHIVO = os.path.join(os.path.dirname(__file__), "preguntas.csv")  # ruta al ar
 ICONO = os.path.join(os.path.dirname(__file__), "logo.ico")  # ruta al archivo ico
 
 def cargar_preguntas():
-    preguntas = {}
+    preguntas = {} # Se crea un diccionario vacío para almacenar las preguntas y respuestas.
     try:
-        with open(ARCHIVO, mode='r', encoding='utf-8') as archivo:
-            lector = csv.DictReader(archivo)
+        with open(ARCHIVO, mode='r', encoding='utf-8') as archivo: #Se abre el archivo .csv en modo lectura (mode='r')
+            lector = csv.DictReader(archivo) # Se crea un lector que convierte cada fila en un diccionario.
             for fila in lector:
-                preguntas[fila['pregunta'].strip().lower()] = fila['respuesta']
+                preguntas[fila['pregunta'].strip().lower()] = fila['respuesta'] # Se agrega al diccionario una entrada con la pregunta y la respuesta.
     except FileNotFoundError:
-        messagebox.showerror("Error", "Archivo preguntas.csv no encontrado.")
+        messagebox.showerror("Error", "Archivo preguntas.csv no encontrado.") # Si el archivo no existe, se muestra un mensaje de error.
     return preguntas
 
 def agregar_pregunta(pregunta, respuesta):
-    with open(ARCHIVO, mode='a', newline='', encoding='utf-8') as archivo:
-        escritor = csv.writer(archivo)
-        escritor.writerow([pregunta, respuesta])
+    with open(ARCHIVO, mode='a', newline='', encoding='utf-8') as archivo: # Se abre el archivo CSV en modo 'append' (mode='a')
+        escritor = csv.writer(archivo) #Creacion de un escritor de csv
+        escritor.writerow([pregunta, respuesta]) # Se escribe una nueva fila con la pregunta y la respuesta
 
 def normalizar(texto):
-    texto = texto.lower().strip()
+    texto = texto.lower().strip() # Convierte todo a minúsculas (lower()) y elimina espacios (strip())
     texto = ''.join(c for c in unicodedata.normalize('NFD', texto) if unicodedata.category(c) != 'Mn')
-    texto = texto.replace("¿", "").replace("?", "").replace(",", "").replace(".", "")
+    texto = texto.replace("¿", "").replace("?", "").replace(",", "").replace(".", "") # Elimina signos de puntuacion comunes para mejorar coincidencia
     return texto
 
 def responder():
-    entrada = entrada_usuario.get().strip().lower()
+    entrada = entrada_usuario.get().strip().lower() # Obtiene el texto ingresado por el usuario
     if not entrada:
         return
 
     mostrar_respuesta(f"🙋 Tú: {entrada}", "usuario")
 
-    if entrada == "salir":
+    # Si el usuario escribió "salir", se cierra la ventana (termina el programa)
+    if entrada == "salir": 
         ventana.quit()
+        return
+    
+    #Si el usuario escribio "ayuda", se muestra un mensaje dando mas informacion sobre su uso al usuario.
+    if entrada == "ayuda":
+        mostrar_respuesta(
+        "🤖 ChadGPT: Guía de uso:\n"
+        "- Escribí una pregunta sobre Python, por ejemplo: ¿Cómo uso un bucle for?\n"
+        "- Si no sé la respuesta, podés enseñármela y la recordaré.\n"
+        "- También podés escribir solo una *palabra clave* (ej: 'herencia') y te sugeriré preguntas relacionadas.\n"
+        "- Escribí 'salir' para cerrar el programa.", #Primer argumento, indica el mensaje
+        "chatbot" #Argumento que indica el remitente del mensaje
+        ) 
+        entrada_usuario.delete(0, tk.END)
         return
 
     entrada_normalizada = normalizar(entrada)
+
+    coincidencias = [preg for preg in base_conocimiento if entrada_normalizada in normalizar(preg)] # Buscar coincidencias con la palabra clave
+
+    if coincidencias and len(coincidencias) >= 2: #Si encuentra coincidencias y son mas de 2
+        mensaje = "🤖 ChadGPT: Encontre preguntas relacionadas con esa palabra clave: \n" #Avisa al usuario que encontro mas de una coincidencia
+        for i, preg in enumerate(coincidencias[:5], 1): # muestra hasta 5 coincidencias
+            mensaje += f"{i}. {preg}\n" #Muestra el mensaje con el siguiente formato: 1. pregunta
+        mensaje += "\n Podes copiar y pegar una de estas preguntas para obtener la respuesta." 
+        mostrar_respuesta(mensaje, "chatbot")
+        entrada_usuario.delete(0, tk.END)
+        return
+
     clave_real = None
-    mejor_coincidencia = difflib.get_close_matches(entrada_normalizada, [normalizar(p) for p in base_conocimiento.keys()], n=1, cutoff=0.5)
+    mejor_coincidencia = difflib.get_close_matches(entrada_normalizada, [normalizar(p) for p in base_conocimiento.keys()], n=1, cutoff=0.5) # Busca la mejor coincidencia entre las preguntas existentes usando difflib
+        # n=1, devuelve solo la mejor coincidencia
+        # cutoff=0.5, nivel mínimo de coincidencia (de 0 a 1)
 
-    if mejor_coincidencia:
-        clave_real = None
-        for original in base_conocimiento:
+    if mejor_coincidencia: # Si hay al menos una coincidencia
+        clave_real = None # Reinicia la variable
+        for original in base_conocimiento: #Busca cual coincide con la mejor coincidencia
             if normalizar(original) == mejor_coincidencia[0] and clave_real is None:
-                clave_real = original
+                clave_real = original # Guarda la clave
 
-    if clave_real:
-        if entrada != clave_real:
-            mostrar_respuesta(f'🤖 ChadGPT: ¿Quisiste decir: "{clave_real}"?\nRespuesta: {base_conocimiento[clave_real]}', "chatbot")
+    if clave_real: # Si se encontró una coincidencia
+        if entrada != clave_real: # Si la pregunta del usuario no era exactamente igual a la clave encontrada
+            mostrar_respuesta(f'🤖 ChadGPT: ¿Quisiste decir: "{clave_real}"?\nRespuesta: {base_conocimiento[clave_real]}', "chatbot") # Sugiere la coincidencia encontrada y la muestra
         else:
-            mostrar_respuesta(f"🤖 ChadGPT: {base_conocimiento[clave_real]}", "chatbot")
+            mostrar_respuesta(f"🤖 ChadGPT: {base_conocimiento[clave_real]}", "chatbot") # Si la pregunta coincide exactamente, simplemente muestra la respuesta
     else:
-        mostrar_respuesta("🤖 ChadGPT: No sé la respuesta. ¿Querés agregarla?", "chatbot")
-        if messagebox.askyesno("Agregar respuesta", "¿Querés agregar una respuesta para esta CHADpregunta?"):
-            nueva_respuesta = simpledialog.askstring("Respuesta", "Escribí la respuesta:")
+        mostrar_respuesta("🤖 ChadGPT: No sé la respuesta. ¿Querés agregarla?", "chatbot") #Se informa al usuario si no se encontraron coincidencias
+        if messagebox.askyesno("Agregar respuesta", "¿Querés agregar una respuesta para esta CHADpregunta?"): # Se le pregunta al usuario si desea agregar una respuesta
+            nueva_respuesta = simpledialog.askstring("Respuesta", "Escribí la respuesta:") # Se solicita al usuario que escriba la respuesta
             if nueva_respuesta:
-                agregar_pregunta(entrada, nueva_respuesta)
+                agregar_pregunta(entrada, nueva_respuesta) # Se guarda la nueva pregunta y respuesta en el archivo
                 base_conocimiento[entrada] = nueva_respuesta
                 mostrar_respuesta("🤖 ChadGPT: ¡Gracias! Ya aprendí esa respuesta.", "chatbot")
 
-    entrada_usuario.delete(0, tk.END)
+    entrada_usuario.delete(0, tk.END) # Limpia el input para la proxima pregunta
 
 def mostrar_respuesta(texto, remitente):
-    chat.configure(state=tk.NORMAL)
-    if remitente == "usuario":
-        chat.insert(tk.END, texto + "\n", "usuario")
+    chat.configure(state=tk.NORMAL) # Habilita el area de texto para poder modificarla
+    if remitente == "usuario": #Si el que envia el mensaje es el usuario...
+        chat.insert(tk.END, texto + "\n", "usuario") # Inserta el texto al final del area de chat con el estilo "usuario" (color cian)
     else:
-        chat.insert(tk.END, texto + "\n", "chatbot")
+        chat.insert(tk.END, texto + "\n", "chatbot") # Sino el mensaje es del chatbot y lo muestra con el estilo "chatbot" (color amarillo)
     chat.configure(state=tk.DISABLED)
-    chat.see(tk.END)
+    chat.see(tk.END) # Mueve la vista del chat hasta el final para que siempre se vea el ultimo mensaje
 
 # Cargar datos
 base_conocimiento = cargar_preguntas()
@@ -102,7 +130,7 @@ boton = tk.Button(ventana, text="Enviar", command=responder, bg="black", fg="whi
 boton.pack(pady=(0, 10))
 
 # Mensaje inicial
-mostrar_respuesta("🤖 ChadGPT: ¡Hola! Bienvenido a CHAD GPT. Un bot de asistencia para aprender Python de forma gratuita.\n\nEscribime tu pregunta (e.j: '¿Cómo se imprime un mensaje en la consola en Python?' o '¿Cómo se usa un bucle for en Python?') e intentaré responderla.\n\nEn el caso de no saberla puede agregarla a la base de datos.", "chatbot")
+mostrar_respuesta("🤖 ChadGPT: ¡Hola! Bienvenido a CHAD GPT. Un bot de asistencia para aprender Python de forma gratuita.\n\nEscribime tu pregunta (e.j: '¿Cómo se imprime un mensaje en la consola en Python?' o '¿Cómo se usa un bucle for en Python?') e intentaré responderla.\n\nEn el caso de no saberla puede agregarla a la base de datos." "\n\nEscribí 'ayuda' en cualquier momento para ver una guía de uso.", "chatbot")
 
 # Ejecutar
 ventana.mainloop()
