@@ -70,15 +70,22 @@ def responder():
         return
 
     clave_real = None
-    mejor_coincidencia = difflib.get_close_matches(entrada_normalizada, [normalizar(p) for p in base_conocimiento.keys()], n=1, cutoff=0.5) # Busca la mejor coincidencia entre las preguntas existentes usando difflib
-        # n=1, devuelve solo la mejor coincidencia
-        # cutoff=0.5, nivel mínimo de coincidencia (de 0 a 1)
 
-    if mejor_coincidencia: # Si hay al menos una coincidencia
-        clave_real = None # Reinicia la variable
-        for original in base_conocimiento: #Busca cual coincide con la mejor coincidencia
-            if normalizar(original) == mejor_coincidencia[0] and clave_real is None:
-                clave_real = original # Guarda la clave
+    # Intentar buscar pregunta exacta
+    for original in base_conocimiento:
+        if normalizar(original) == entrada_normalizada:
+            clave_real = original
+            break
+
+    # Si no se encontró exacta, usar difflib como respaldo
+    if not clave_real:
+        mejor_coincidencia = difflib.get_close_matches( entrada_normalizada, [normalizar(p) for p in base_conocimiento.keys()], n=1, cutoff=0.75) # Acepta coincidencias hasta 75%
+        if mejor_coincidencia:
+            for original in base_conocimiento:
+                if normalizar(original) == mejor_coincidencia[0]:
+                    clave_real = original
+                    break
+
 
     if clave_real: # Si se encontró una coincidencia
         if entrada != clave_real: # Si la pregunta del usuario no era exactamente igual a la clave encontrada
